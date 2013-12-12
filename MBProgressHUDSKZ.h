@@ -108,7 +108,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
  *   indicator view.
  * - If also the detailsLabelText property is set then another label is placed below the first label.
  */
-@interface MBProgressHUD : UIView
+@interface MBProgressHUDSKZ : UIView
 
 /**
  * Creates a new HUD, adds it to provided view and shows it. The counterpart to this method is hideHUDForView:animated:.
@@ -434,7 +434,7 @@ typedef void (^MBProgressHUDCompletionBlock)();
 /** 
  * Called after the HUD was fully hidden from the screen. 
  */
-- (void)hudWasHidden:(MBProgressHUD *)hud;
+- (void)hudWasHidden:(MBProgressHUDSKZ *)hud;
 
 @end
 
