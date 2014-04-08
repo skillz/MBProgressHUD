@@ -130,7 +130,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
-	MBProgressHUDSKZ *hud = [self HUDForView:view];
+	MBProgressHUDSKZ *hud = [MBProgressHUDSKZ instanceForView:view];
 	if (hud != nil) {
 		hud.removeFromSuperViewOnHide = YES;
 		[hud hide:animated];
@@ -140,7 +140,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 + (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated {
-	NSArray *huds = [MBProgressHUDSKZ allHUDsForView:view];
+	NSArray *huds = [MBProgressHUDSKZ instanceForView:view];
 	for (MBProgressHUDSKZ *hud in huds) {
 		hud.removeFromSuperViewOnHide = YES;
 		[hud hide:animated];
