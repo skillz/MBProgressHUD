@@ -123,7 +123,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - Class methods
 
 + (MB_INSTANCETYPE)showHUDAddedTo:(UIView *)view animated:(BOOL)animated {
-	MBProgressHUDSKZ *hud = [[self alloc] initWithView:view];
+	MBProgressHUDSKZ *hud = [MBProgressHUDSKZ instanceForView:view];
 	[view addSubview:hud];
 	[hud show:animated];
 	return MB_AUTORELEASE(hud);
@@ -169,10 +169,31 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	return [NSArray arrayWithArray:huds];
 }
 
+#pragma mark Singleton Methods
+
++ (id)sharedInstance
+{
+    static MBProgressHUDSKZ * sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        CGRect rect = [[UIScreen mainScreen] bounds];
+        if (isLandscape())
+            sharedInstance = [[self alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.height, rect.size.width)];
+        else
+            sharedInstance = [[self alloc] initWithFrame:rect];
+    });
+    return sharedInstance;
+}
+
++ (id)instanceForView:(UIView*)view {
+    return [self sharedInstance];
+}
+
 #pragma mark - Lifecycle
 
 - (id)initWithFrame:(CGRect)frame {
-	self = [super initWithFrame:frame];
+    self = [super initWithFrame:frame];
+
 	if (self) {
 		// Set default values for properties
 		self.animationType = MBProgressHUDAnimationFade;
