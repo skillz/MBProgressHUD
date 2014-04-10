@@ -176,7 +176,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 + (id)sharedInstance
 {
-    static MBProgressHUDSKZ * sharedInstance = nil;
+    __strong static MBProgressHUDSKZ * sharedInstance = nil;
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -276,13 +276,18 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)show:(BOOL)animated {
 	useAnimation = animated;
+    
+    CGRect rect = [[UIScreen mainScreen] bounds];
+    if (isLandscape()) {
+        [self setFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.height, rect.size.width)];
+    } else {
+        [self setFrame:rect];
+    }
 	// If the grace time is set postpone the HUD display
 	if (self.graceTime > 0.0) {
 		self.graceTimer = [NSTimer scheduledTimerWithTimeInterval:self.graceTime target:self 
 						   selector:@selector(handleGraceTimer:) userInfo:nil repeats:NO];
-	} 
-	// ... otherwise show the HUD imediately 
-	else {
+	} else {
 		[self setNeedsDisplay];
 		[self showUsingAnimation:useAnimation];
 	}
