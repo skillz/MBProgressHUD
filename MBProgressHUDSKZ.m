@@ -132,7 +132,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 + (BOOL)hideHUDForView:(UIView *)view animated:(BOOL)animated {
 	MBProgressHUDSKZ *hud = [MBProgressHUDSKZ instanceForView:view];
 	if (hud != nil) {
-		hud.removeFromSuperViewOnHide = YES;
 		[hud hide:animated];
 		return YES;
 	}
@@ -142,7 +141,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 + (NSUInteger)hideAllHUDsForView:(UIView *)view animated:(BOOL)animated {
 	NSArray *huds = [MBProgressHUDSKZ instanceForView:view];
 	for (MBProgressHUDSKZ *hud in huds) {
-		hud.removeFromSuperViewOnHide = YES;
 		[hud hide:animated];
 	}
 	return [huds count];
@@ -170,18 +168,26 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark Singleton Methods
++ (void)load
+{
+    //Generate on load
+    [self sharedInstance];
+}
 
 + (id)sharedInstance
 {
-    __strong static MBProgressHUDSKZ * sharedInstance = nil;
+    static MBProgressHUDSKZ * sharedInstance = nil;
+    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         CGRect rect = [[UIScreen mainScreen] bounds];
-        if (isLandscape())
+        if (isLandscape()) {
             sharedInstance = [[self alloc] initWithFrame:CGRectMake(rect.origin.x, rect.origin.y, rect.size.height, rect.size.width)];
-        else
+        } else {
             sharedInstance = [[self alloc] initWithFrame:rect];
+        }
     });
+    
     return sharedInstance;
 }
 
