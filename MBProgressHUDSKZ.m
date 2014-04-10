@@ -173,7 +173,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 + (id)sharedInstance
 {
-    static MBProgressHUDSKZ * sharedInstance = nil;
+    __strong static MBProgressHUDSKZ * sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         CGRect rect = [[UIScreen mainScreen] bounds];
