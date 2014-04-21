@@ -192,6 +192,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 + (id)instanceForView:(UIView*)view {
+    [[self sharedInstance] setDetailsLabelText:@""];
+    [[self sharedInstance] setLabelText:@""];
     return [self sharedInstance];
 }
 
