@@ -168,11 +168,6 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 #pragma mark Singleton Methods
-+ (void)load
-{
-    //Generate on load
-    [self sharedInstance];
-}
 
 + (id)sharedInstance
 {
